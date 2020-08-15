@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const redis = require('redis');
+const mongoose    = require("mongoose");
 
 const port = 3000;
 
@@ -12,10 +13,8 @@ const app = express();
 app.engine('handlebars', hbs({
     defaulLayout: 'main'
 }));
+
 app.set('view engine', 'handlebars');
-
-app.use('/static', express.static('public'));
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
