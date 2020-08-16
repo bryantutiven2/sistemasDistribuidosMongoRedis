@@ -8,7 +8,7 @@ const fallecidoSchema = new mongoose.Schema({
     nacimiento: String,
     cementerio: String,
     provincia: String,
-    nolapida: Number,
+    nolapida: String,
 });
 
 const fallecido = mongoose.model('difuntos',fallecidoSchema);

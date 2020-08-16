@@ -1,0 +1,18 @@
+<h1>Resultados de la búsqueda</h1>
+{{fallecido}}
+<h2>{{fallecido.data.nombres}} {{fallecido.apellidos}}</h2>
+<ul class="list-group">
+  <li class="list-group-item"><strong>C.I.: </strong>{{difunto.ci}}</li>
+  <li class="list-group-item"><strong>Año nacimiento: </strong>{{difunto.nacimiento}}</li>
+  <li class="list-group-item"><strong>Año defunción: </strong>{{difunto.defuncion}}</li>
+  <li class="list-group-item"><strong>Nombre cementerio: </strong>{{difunto.cementerio}}</li>
+  <li class="list-group-item"><strong>No. lápida: </strong>{{difunto.nolapida}}</li>
+</ul>
+<div class="row">
+  <form method="POST" action="/fallecido/delete/{{difunto.ci}}?_method=DELETE">
+  <input type="submit" class="btn btn-danger pull-right" value="Delete">
+</form>
+
+</div>
+
+
