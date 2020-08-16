@@ -86,30 +86,27 @@ app.post('/fallecido/success', (req, res) => {
         })
 })
 
-app.post('/fallecido/buscar', (req, res, next) => {
-    fallecido.find({
-            ci: req.body.ci
-        })
-        .then((data) => {
-            console.log(data);
-            res.render('detallebusqueda',{fallecido : data});
-        })
-        .catch((err) => {
-            console.log(err)
-            res.json({
-                found: false
-            })
-        })
-})
+app.post('/fallecido/buscar', function(req, res) {
+    var query = {"ci": req.body.id};
+    fallecido.findOne(query, function(err, data){
+        console.log(data)
+        res.render(
+            'detallebusqueda',
+            {title : 'Search', data : data}
+        );
 
-app.get('/:ci/', (req, res) => {
+    }
+     );
+});
+
+app.get('/:cedula/', (req, res) => {
     fallecido.find({
-            ci: req.params.ci
+            ci: req.params.cedula
         })
         .then((data) => {
             console.log(data);
             res.render('detallebusqueda', {
-                difunto: data
+             data
             });
         })
         .catch((err) => {
@@ -120,6 +117,7 @@ app.get('/:ci/', (req, res) => {
             })
         })
 })
+
 
 app.listen(port, function () {
     console.log('Servidor inicializado en el puerto: ' + port);
