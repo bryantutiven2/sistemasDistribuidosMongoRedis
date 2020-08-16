@@ -4,11 +4,23 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const redis = require('redis');
-const mongoose    = require("mongoose");
+const mongoose = require("mongoose");
 
 const port = 3000;
 
 const app = express();
+
+mongoose.connect('mongodb://localhost:27017/mapavirtual', {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+mongoose.connection
+    .once('open', () => console.log('connected to database'))
+    .on('error', (err) => console.log("connection to database failed!!", err))
+
+const fallecido = require('./models/fallecido');
+
 
 app.engine('handlebars', hbs({
     defaulLayout: 'main'
@@ -28,6 +40,8 @@ app.use(methodOverride('_method'));
 app.get('/', function (req, res, next) {
     res.render('buscarfallecidos');
 });
+
+
 
 app.post('/fallecido/buscar', function (req, res, next) {
 

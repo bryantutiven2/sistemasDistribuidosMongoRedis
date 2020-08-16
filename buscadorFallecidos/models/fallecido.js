@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
 
 const fallecidoSchema = new mongoose.Schema({
-    id: Number,
+    ci: Number,
     nombres: String,
     apellidos: String,
-    fechaDefuncion: String,
+    defuncion: String,
+    nacimiento: String,
     cementerio: String,
-
+    provincia: String,
+    nolapida: Number,
 });
 
-const fallecido = mongoose.model('fallecidoList',fallecidoSchema);
+const fallecido = mongoose.model('difuntos',fallecidoSchema);
 
 module.exports = fallecido;

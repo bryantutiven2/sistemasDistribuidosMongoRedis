@@ -1,9 +1,9 @@
 <h1>Agregar un fallecido</h1>
 {{#if error}} <span>{{error}}</span>{{/if}}
-<form method="POST" action="/user/add">
+<form method="POST" action="/fallecido/add">
   <div class="form-group">
-    <label>ID</label>
-    <input type="text" name="id" class="form-control" placeholder="Add ID">
+    <label>C.I.</label>
+    <input type="text" name="ci" class="form-control" placeholder="No. de Cédula del fallecido">
   </div>
   <div class="form-group">
     <label>Nombres</label>
@@ -11,15 +11,27 @@
   </div>
   <div class="form-group">
     <label>Apellidos</label>
-    <input type="text" name="last_name" class="form-control" placeholder="Apellidos del fallecido">
+    <input type="text" name="apellidos" class="form-control" placeholder="Apellidos del fallecido">
   </div>
   <div class="form-group">
-    <label>Fecha de defunción</label>
-    <input type="text" name="fecha" class="form-control" placeholder="DD/MM/YYYY">
+    <label>Año de nacimiento</label>
+    <input type="text" name="nacimiento" class="form-control" placeholder="YYYY">
+  </div>
+  <div class="form-group">
+    <label>Año de defunción</label>
+    <input type="text" name="defuncion" class="form-control" placeholder="YYYY">
   </div>
   <div class="form-group">
     <label>Nombre del cementerio</label>
     <input type="text" name="cementerio" class="form-control" placeholder="Ingrese el nombre del cementerio">
+  </div>
+  <div class="form-group">
+    <label>Provincia</label>
+    <input type="text" name="provincia" class="form-control" placeholder="Ingrese el nombre del cementerio">
+  </div>
+  <div class="form-group">
+    <label>No. de lápida</label>
+    <input type="text" name="nolapida" class="form-control" placeholder="Ej.:10-74">
   </div>
   <input type="submit" class="btn btn-primary" value="Guardar">
 </form>
