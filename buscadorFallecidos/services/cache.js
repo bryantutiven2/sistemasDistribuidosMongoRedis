@@ -2,8 +2,21 @@ const mongoose = require('mongoose')
 const redis = require('redis')
 const util = require('util')
 
+var redisHost = 'redis-15206.c85.us-east-1-2.ec2.cloud.redislabs.com';
+var redisPort = '15206';
+var redisAuth = 'xjy9EWPadLfZvqsJvoEU7SbWRk4DFWSx';
+
 const redisUrl = 'redis://127.0.0.1:6379';
-const client = redis.createClient(redisUrl);
+const client = redis.createClient({
+    port : redisPort,
+    host : redisHost
+});
+client.auth(redisAuth, function(err, response){
+    if(err){
+    throw err;
+    }
+});
+
 client.hget = util.promisify(client.hget);   
 mongoose.Query.prototype.cache = function(hkey){
     this.useCache = true;

@@ -15,7 +15,9 @@ const port = 3000;
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/mapavirtual', {
+// mongoose.connect('mongodb://localhost:27017/mapavirtual', {
+mongoose.connect(
+    'mongodb+srv://bryan:12345@cluster0.plvsi.mongodb.net/mapavirtual?retryWrites=true&w=majority', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -98,8 +100,8 @@ app.post('/fallecido/buscar', function(req, res) {
             {title : 'Search', data : data}
         );
 
-    }
-     );
+    })
+    .cache(req.body.id);
 });
 
 app.get('/:cedula/', (req, res) => {
