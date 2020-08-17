@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const redis = require('redis');
+const clearCache = require('./services/cache')
 const mongoose = require("mongoose");
 const {
     allowInsecurePrototypeAccess
@@ -48,6 +49,7 @@ app.get('/', function (req, res, next) {
 
 app.get('/get', (req, res) => {
     fallecido.find({})
+        .cache()
         .then((data) => {
             res.json({
                 found: true,
@@ -77,6 +79,7 @@ app.post('/fallecido/success', (req, res) => {
             res.render('detalle', {
                 data: v_data
             });
+            clearCache(v_data.ci)
         })
         .catch((err) => {
             console.log(err)
@@ -101,8 +104,9 @@ app.post('/fallecido/buscar', function(req, res) {
 
 app.get('/:cedula/', (req, res) => {
     fallecido.find({
-            ci: req.params.cedula
+            id: req.params.cedula
         })
+        .cache(req.params.ci)
         .then((data) => {
             console.log(data);
             res.render('detallebusqueda', {
