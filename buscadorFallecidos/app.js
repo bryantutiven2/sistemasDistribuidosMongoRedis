@@ -18,10 +18,10 @@ const app = express();
 // mongoose.connect('mongodb://localhost:27017/mapavirtual', {
 mongoose.connect(
     'mongodb+srv://bryan:12345@cluster0.plvsi.mongodb.net/mapavirtual?retryWrites=true&w=majority', {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
 mongoose.connection
     .once('open', () => console.log('connected to database'))
     .on('error', (err) => console.log("connection to database failed!!", err))
@@ -67,7 +67,38 @@ app.get('/get', (req, res) => {
         })
 })
 
+app.get('/get/:id', (req, res) => {
+    fallecido.find({id: req.params.id})
+        .cache(req.params.id)
+        .then((data) => {
+            res.render('detallebusqueda', {
+                title: 'Search',
+                data: data
+            });
+        })
+        .catch((err) => {
+            console.log(err)
+            res.json({
+                found: false,
+                data: null
+            });
+        })
+})
+app.get("/api/:id", async (req, res) => {
+    let books;
+    if (req.params.id) {
+      books = await fallecido.find({ ci: req.params.id },  function (err, data) {
+        console.log(data);
+        
+    }).cache(req.params.id);
+    } else {
+      books = await fallecido.find({}).cache({
+        time: 10
+      });
+    }
 
+    res.send(books);
+  });
 
 app.get('/fallecido/add', function (req, res, next) {
     res.render('addfallecido');
@@ -91,20 +122,27 @@ app.post('/fallecido/success', (req, res) => {
         })
 })
 
-app.post('/fallecido/buscar', function(req, res) {
-    var query = {"ci": req.body.id};
-    fallecido.findOne(query, function(err, data){
-        console.log(data)
-        res.render(
-            'detallebusqueda',
-            {title : 'Search', data : data}
-        );
+app.post('/fallecido/buscar', function (req, res) {
 
-    })
-    .cache(req.body.id);
-});
+    var query = {
+        "ci": req.body.id
+    };
+    if (query) {
+        fallecido.findOne(query, function (err, data) {
+            console.log(data)
+            res.render('detallebusqueda', {
+                title: 'Search',
+                data: data
+            });
+        }).cache(req.body.id)
+    } else {
+        fallecido.find().cache({
+            time: 10
+        });
+    }
 
-app.get('/:cedula/', (req, res) => {
+})
+app.get('/:id/', (req, res) => {
     fallecido.find({
             id: req.params.cedula
         })
@@ -112,7 +150,7 @@ app.get('/:cedula/', (req, res) => {
         .then((data) => {
             console.log(data);
             res.render('detallebusqueda', {
-             data
+                data
             });
         })
         .catch((err) => {
